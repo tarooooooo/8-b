@@ -9,7 +9,8 @@
             <th></th>
             <th>Title</th>
             <th>Opinion</th>
-            <th colspan=6></th>
+            <th colspan=8></th>
+
           </tr>
       　</therd>
         <tbody>
@@ -38,6 +39,9 @@
 
             <td id = "comments_count" >
               <%=render partial: "book_comments/count" , locals: { book: @user_book}%>
+            </td>
+            <td>
+             閲覧数: <%= @user_book.impressionist_count(:filter=>:session_hash) %>
             </td>
             <% if @user_book.user == current_user %>
 

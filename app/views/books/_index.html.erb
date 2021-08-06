@@ -35,9 +35,11 @@
      </td>
 
       <td class ='example'>
-        <span>コメント数：<%=book.book_comments.count %></span>
+        コメント数：<%=book.book_comments.count %>
       </td>
-
+      <td>
+        閲覧数: <%= book.impressionist_count(:filter=>:session_hash) %>
+      </td>
     </tr>
   </tbody>
   <% end %>

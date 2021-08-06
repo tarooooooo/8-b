@@ -1,5 +1,6 @@
 class BooksController < ApplicationController
   before_action :baria_book , only: [:edit]
+  impressionist action: [:show]
 
   def create
     @user = current_user
@@ -32,6 +33,7 @@ class BooksController < ApplicationController
     @user = @user_book.user
     @book_comments = @user_book.book_comments.all
     @book_comment = current_user.book_comments.new
+    impressionist(@user_book, nil, unique: [:session_hash.to_s])
   end
 
   def edit
