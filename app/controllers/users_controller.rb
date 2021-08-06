@@ -2,25 +2,29 @@ class UsersController < ApplicationController
   before_action :baria_user, only: [:edit]
 
   def show
-    @room = Room.new
+
+    @user = User.find(params[:id])
     @book = Book.new
     @user_books = Book.where(user_id:params[:id]).includes(:favorited_users).sort{|a,b| b.favorited_users.size <=> a.favorited_users.size}
-    # @user_books = Book.includes(:favorited_users).sort{|a,b| b.favorited_users.size <=> a.favorited_users.size}　
+    # @user_books = Book.includes(:favorited_users).sort{|a,b| b.favorited_users.size <=> a.favorited_users.size}
     #上記を追記すると、Book.allが呼び出されてしまう。なので、user.bookを呼び出してから、並び替えの記述をする。
-    @user = User.find(params[:id])
-    @currentUserEntry = Entry.where(user_id: current_user.id)
-    @userEntry = Entry.where(user_id: @user.id)
+    @current_entry = Entry.where(user_id: current_user.id)
+    # Entryモデルからメッセージ相手のレコードを抽出
+    @another_entry = Entry.where(user_id: @user.id)
+    
     unless @user.id == current_user.id
-      @currentUserEntry.each do |cu|
-        @userEntry.each do |u|
-          if cu.room_id == u.room_id
-            @isRoom = true
-            @room_id = cu.room_id
+      @current_entry.each do |current|
+        @another_entry.each do |another|
+          # ルームが存在する場合
+          if current.room_id == another.room_id
+            @is_room = true
+            @room_id = current.room_id
           end
         end
       end
-      unless @isRoom 
-         @room = Room.new
+      # ルームが存在しない場合は新規作成
+      unless @is_room
+        @room = Room.new
         @entry = Entry.new
       end
     end

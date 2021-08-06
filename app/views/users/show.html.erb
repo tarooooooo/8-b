@@ -2,17 +2,6 @@
   <div class="row">
     <%= render'list',user:@user,book:@book %>
 
-    <div>
-      
-          <%= form_with model:@room do |f| %>
-            <%= fields_for @entry do |e| %>
-             <%= e.hidden_field :user_id, value: @user.id %>
-            <% end %>
-            <%= f.submit "チャットを始める" , class:"btn btn-primary btn-lg user-show-chat" %>
-          <% end %>
-      
-    </div>
-
     <div class ="col-md-8 offset-md-1" id = "userbooks">
 
       <%=render 'users/userbooks' , user_books:@user_books %>
