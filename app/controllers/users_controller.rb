@@ -4,7 +4,22 @@ class UsersController < ApplicationController
   def show
 
     @user = User.find(params[:id])
+  # 今日と昨日の投稿数、前日比計算
+    @today_book_count     = @user.books.created_at_today.count
+    @yesterday_book_count = @user.books.created_at_yesterday.count
     
+    unless @yesterday_book_count == 0
+      @day_before = (@today_book_count.to_f / @yesterday_book_count.to_f).round * 100
+    end
+    
+    # 今週と先週の投稿数、前週比
+    @week_book_count      = @user.books.created_at_week.count
+    @last_week_book_count = @user.books.created_at_last_week.count
+    
+    unless @last_week_book_count == 0
+      @week_before = (@week_book_count.to_f / @last_week_book_count.to_f).round * 100
+    end
+
     @book = Book.new
     @user_books = Book.where(user_id:params[:id]).includes(:favorited_users).sort{|a,b| b.favorited_users.size <=> a.favorited_users.size}
     # @user_books = Book.includes(:favorited_users).sort{|a,b| b.favorited_users.size <=> a.favorited_users.size}
@@ -12,7 +27,7 @@ class UsersController < ApplicationController
     @current_entry = Entry.where(user_id: current_user.id)
     # Entryモデルからメッセージ相手のレコードを抽出
     @another_entry = Entry.where(user_id: @user.id)
-    
+
     unless @user.id == current_user.id
       @current_entry.each do |current|
         @another_entry.each do |another|
@@ -30,6 +45,7 @@ class UsersController < ApplicationController
       end
     end
   end
+
 
   def index
     @user = current_user

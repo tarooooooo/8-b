@@ -5,7 +5,7 @@ class MessagesController < ApplicationController
     if message.save
       redirect_to room_path(message.room)
     else
-      redirect_back(fallback_location: root_path)
+      redirect_to room_path(message.room), flash: {error: 'メッセージを入力してください'}
     end
    end
 

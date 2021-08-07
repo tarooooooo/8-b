@@ -1,10 +1,15 @@
- 
+<% if flash[:error] %>
+  <div class='alert-danger' >
+   <%= flash[:error]  %>
+  </div>
+<% end %>
 
-<h2>
+ <h2>
   <strong>
   <%= @another_entry.user.name%>さんとのチャット
   </strong>
 </h2>
+
 <table class="table">
     <thead>
         <tr>
