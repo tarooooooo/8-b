@@ -4,18 +4,23 @@ class UsersController < ApplicationController
   def show
 
     @user = User.find(params[:id])
-  # 今日と昨日の投稿数、前日比計算
-    @today_book_count     = @user.books.created_at_today.count
-    @yesterday_book_count = @user.books.created_at_yesterday.count
-    
+  # 今日から６日前の投稿数、前日比計算
+    @today_book_count          = @user.books.created_at_today.count
+    @yesterday_book_count      = @user.books.created_at_yesterday.count
+    @two_days_ago_book_count   = @user.books.created_at_two_days_ago.count
+    @three_days_ago_book_count = @user.books.created_at_three_days_ago.count
+    @four_days_ago_book_count  = @user.books.created_at_four_days_ago.count
+    @five_days_ago_book_count  = @user.books.created_at_five_days_ago.count
+    @six_days_ago_book_count   = @user.books.created_at_six_days_ago.count
+
     unless @yesterday_book_count == 0
       @day_before = (@today_book_count.to_f / @yesterday_book_count.to_f).round * 100
     end
-    
+
     # 今週と先週の投稿数、前週比
     @week_book_count      = @user.books.created_at_week.count
     @last_week_book_count = @user.books.created_at_last_week.count
-    
+
     unless @last_week_book_count == 0
       @week_before = (@week_book_count.to_f / @last_week_book_count.to_f).round * 100
     end
@@ -40,7 +45,7 @@ class UsersController < ApplicationController
       end
       # ルームが存在しない場合は新規作成
       unless @is_room
-        @room = Room.new
+        @room  = Room.new
         @entry = Entry.new
       end
     end
@@ -48,8 +53,8 @@ class UsersController < ApplicationController
 
 
   def index
-    @user = current_user
-    @book = Book.new
+    @user  = current_user
+    @book  = Book.new
     @users = User.all
   end
 
@@ -67,12 +72,12 @@ class UsersController < ApplicationController
   end
 
   def follows
-    user = User.find(params[:id])
+    user   = User.find(params[:id])
     @users = user.followings
   end
 
   def followers
-    user = User.find(params[:id])
+    user   = User.find(params[:id])
     @users = user.followers
   end
 
