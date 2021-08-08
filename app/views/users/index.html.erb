@@ -30,7 +30,9 @@
               <% end %>
             <% end %>
             <td>
-              <%=link_to "Show" ,user_path(user.id)  %>
+              <div data-turbolinks="false">
+                <%=link_to "Show" ,user_path(user.id)  %>
+              </div>
             </td>
           </tr>
         </tbody>

@@ -1,18 +1,24 @@
+
 <div class ="container px-5 px-sm-0">
+
   <div class="row">
-    
+
     <%= render'list',user:@user,book:@book %>
 
     <div class ="col-md-8 offset-md-1">
-      
+
   　　<div id="userbooks">
         <%=render 'users/userbooks' , user_books:@user_books %>
   　　</div>
-  　　
+
       <%#= render 'users/book_counts' %>
+
       <%= render 'users/week_book_counts'%>
+
+      <%= render 'users/graph' %>
+
     </div>
- 
+
 
   </div>
 </div>
